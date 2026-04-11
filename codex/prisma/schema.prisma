@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Recurrence {
+  NONE
+  DAILY
+  WEEKLY
+  MONTHLY
+}
+
+enum GroceryCategory {
+  PRODUCE
+  MEAT
+  DAIRY
+  BAKERY
+  FROZEN
+  PANTRY
+  HOUSEHOLD
+  OTHER
+}
+
+model User {
+  id           String            @id @default(cuid())
+  email        String            @unique
+  passwordHash String
+  createdAt    DateTime          @default(now())
+  sessions     Session[]
+  tasks        Task[]
+  groceries    GroceryItem[]
+  bills        Bill[]
+  maintenance  MaintenanceItem[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Task {
+  id          String     @id @default(cuid())
+  userId      String
+  name        String
+  description String?
+  dueDate     DateTime
+  recurrence  Recurrence @default(NONE)
+  completed   Boolean    @default(false)
+  completedAt DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, dueDate])
+}
+
+model GroceryItem {
+  id          String          @id @default(cuid())
+  userId      String
+  name        String
+  category    GroceryCategory @default(OTHER)
+  purchased   Boolean         @default(false)
+  createdAt   DateTime        @default(now())
+  purchasedAt DateTime?
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, purchased])
+}
+
+model Bill {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  amountCents Int
+  dueDate     DateTime
+  recurring   Boolean  @default(false)
+  paid        Boolean  @default(false)
+  paidAt      DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, dueDate])
+}
+
+model MaintenanceItem {
+  id                String   @id @default(cuid())
+  userId            String
+  name              String
+  lastCompletedDate DateTime
+  frequencyDays     Int
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, lastCompletedDate])
+}

@@ -1,0 +1,2 @@
+Use the this "codex" folder, do not write anything in the root of this repo. 
+Read the ../prompt.md file for coding instructions.

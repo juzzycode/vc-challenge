@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background: #f7f8f5;
+  color: #1e241f;
+}
+
+input,
+select,
+textarea {
+  color: #1e241f;
+}
+
+summary {
+  cursor: pointer;
+}
+
+@layer components {
+  .field {
+    @apply w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm outline-none transition focus:border-teal-700 focus:ring-2 focus:ring-teal-100;
+  }
+
+  .label {
+    @apply text-xs font-semibold uppercase tracking-normal text-zinc-600;
+  }
+
+  .button {
+    @apply inline-flex min-h-10 items-center justify-center rounded-md bg-teal-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-teal-800;
+  }
+
+  .button-secondary {
+    @apply inline-flex min-h-10 items-center justify-center rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-800 transition hover:bg-zinc-100;
+  }
+
+  .button-danger {
+    @apply inline-flex min-h-10 items-center justify-center rounded-md bg-red-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-800;
+  }
+
+  .panel {
+    @apply rounded-md border border-zinc-200 bg-white p-4 shadow-sm;
+  }
+}
