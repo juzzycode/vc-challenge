@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Read(//c/Program Files/**)",
+      "Read(//c/Users/Juzzy/AppData/Local/**)",
+      "Read(//c/Users/Juzzy/.nvm/versions/**)",
+      "Bash(cmd.exe /c \"where node\")",
+      "Bash(cmd.exe /c \"where npm\")",
+      "Bash(cmd.exe /c \"node --version\")",
+      "Bash(cmd.exe /c \"npm --version\")",
+      "Bash(cmd.exe /c \"node --version && npm --version\")",
+      "Bash(powershell.exe -Command \"node --version; npm --version\")",
+      "Bash(powershell.exe -Command \"Get-Command node -ErrorAction SilentlyContinue; Get-Command npm -ErrorAction SilentlyContinue; Get-ChildItem 'C:\\\\Program Files\\\\nodejs' -ErrorAction SilentlyContinue; Get-ChildItem 'C:\\\\Users\\\\Juzzy\\\\AppData\\\\Roaming\\\\nvm' -ErrorAction SilentlyContinue\")",
+      "Bash(powershell.exe -Command \"Test-Path 'C:\\\\Program Files\\\\nodejs'; Test-Path 'C:\\\\Program Files\\\\nodejs\\\\node.exe'; ls 'C:\\\\Users\\\\Juzzy\\\\AppData\\\\Local\\\\' | Select-Object Name\")",
+      "Bash(powershell.exe -Command \"ls 'C:\\\\Users\\\\Juzzy\\\\AppData\\\\Local\\\\claude-cli-nodejs'\")",
+      "Bash(powershell.exe -Command 'ls '\\\\''C:\\\\Users\\\\Juzzy\\\\AppData\\\\Local\\\\'\\\\'' | Where-Object { $_.Name -match '\\\\''node|nvm'\\\\'' } | Select Name')",
+      "Bash(powershell.exe -Command 'ls '\\\\''C:\\\\Users\\\\Juzzy\\\\AppData\\\\Roaming\\\\'\\\\'' | Where-Object { $_.Name -match '\\\\''node|npm|nvm'\\\\'' } | Select Name')",
+      "Bash(powershell.exe -Command \"ls 'C:\\\\Users\\\\Juzzy\\\\AppData\\\\Roaming\\\\nextjs-nodejs'\")",
+      "Bash(powershell.exe -Command '$env:PATH -split '\\\\'';'\\\\'' | Where-Object { $_ -match '\\\\''node|npm|nvm'\\\\'' }')",
+      "Bash(powershell.exe -Command \"Get-ItemProperty 'HKLM:\\\\SOFTWARE\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\App Paths\\\\node.exe' -ErrorAction SilentlyContinue\")",
+      "Bash(powershell.exe -Command '$env:PATH')",
+      "Bash(powershell.exe -Command \"& 'C:\\\\nodejs\\\\node-v24.14.1-win-x64\\\\node.exe' --version; & 'C:\\\\nodejs\\\\node-v24.14.1-win-x64\\\\npm.cmd' --version\")",
+      "Bash(powershell.exe -Command 'Set-Location '\\\\''C:\\\\Users\\\\Juzzy\\\\Documents\\\\GitHub\\\\vc-challenge\\\\claude'\\\\''; $env:PATH = '\\\\''C:\\\\nodejs\\\\node-v24.14.1-win-x64;'\\\\'' + $env:PATH; npm install 2>&1')",
+      "Bash(powershell.exe -Command 'Set-Location '\\\\''C:\\\\Users\\\\Juzzy\\\\Documents\\\\GitHub\\\\vc-challenge\\\\claude'\\\\''; $env:PATH = '\\\\''C:\\\\nodejs\\\\node-v24.14.1-win-x64;'\\\\'' + $env:PATH; npx prisma db push 2>&1')",
+      "Bash(powershell.exe -Command 'Set-Location '\\\\''C:\\\\Users\\\\Juzzy\\\\Documents\\\\GitHub\\\\vc-challenge\\\\claude'\\\\''; $env:PATH = '\\\\''C:\\\\nodejs\\\\node-v24.14.1-win-x64;'\\\\'' + $env:PATH; npm run build 2>&1')",
+      "Bash(powershell.exe -Command ':*)"
+    ]
+  }
+}

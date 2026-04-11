@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tasks            Task[]
+  groceryItems     GroceryItem[]
+  bills            Bill[]
+  maintenanceItems MaintenanceItem[]
+}
+
+model Task {
+  id          String      @id @default(cuid())
+  userId      String
+  name        String
+  description String?
+  dueDate     DateTime?
+  recurrence  String?     // "none" | "daily" | "weekly" | "monthly"
+  completed   Boolean     @default(false)
+  completedAt DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model GroceryItem {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  category  String   @default("other")
+  purchased Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Bill {
+  id         String    @id @default(cuid())
+  userId     String
+  name       String
+  amount     Float
+  dueDate    DateTime
+  recurring  Boolean   @default(false)
+  paid       Boolean   @default(false)
+  paidAt     DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model MaintenanceItem {
+  id              String    @id @default(cuid())
+  userId          String
+  name            String
+  lastCompleted   DateTime?
+  frequencyDays   Int
+  notes           String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
