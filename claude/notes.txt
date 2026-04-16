@@ -1,2 +1,3 @@
-
+Total dir size: 504MB
 Time: 16m 51s
+completed all tasks: YES
