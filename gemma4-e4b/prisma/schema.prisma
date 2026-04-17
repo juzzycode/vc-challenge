@@ -1,0 +1,93 @@
+// This schema defines the data models for the Household Command Center application.
+// It supports User authentication, Task management (with recurrence), Grocery List, Bill Tracking, and Home Maintenance tracking.
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL") // e.g., file:./dev.db
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// --- User Model (For Basic Multi-User Support) ---
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String // Hashed password
+  name      String?
+  tasks     Task[]
+  groceries GroceryItem[]
+  bills     Bill[]
+  maintenance MaintenanceItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// --- Task Model (Chore System) ---
+model Task {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  dueDate     DateTime // The date this specific instance is due
+  isCompleted Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Recurrence fields
+  recurrenceType String // "NONE", "DAILY", "WEEKLY", "MONTHLY"
+  recurrenceInterval Int // e.g., 1 for daily, 2 for weekly (every 2 weeks), 1 for monthly
+
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+
+  // Relationships (if needed later, but keeping simple for now)
+}
+
+// --- Grocery Item Model ---
+model GroceryItem {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  category    String // e.g., "produce", "meat", "dairy"
+  isPurchased Boolean  @default(false)
+  addedAt     DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+// --- Bill Model (Bill Tracker) ---
+model Bill {
+  id          String   @id @default(cuid())
+  name        String
+  amount      Float
+  dueDate     DateTime // The date this specific instance is due
+  isPaid      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Recurring fields
+  isRecurring Boolean  @default(true)
+  recurrenceInterval Int // e.g., 1 for monthly, could be extended later
+
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+// --- Maintenance Item Model (Home Maintenance Tracker) ---
+model MaintenanceItem {
+  id          String   @id @default(cuid())
+  taskName    String
+  lastCompletedAt DateTime // Date the last instance was completed
+  frequencyDays Int     // How often it needs maintenance (e.g., 90 days for filter)
+  nextDueDate DateTime? // Calculated next due date
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+}

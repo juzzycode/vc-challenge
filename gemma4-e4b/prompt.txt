@@ -1,2 +1,1 @@
-Use the gemma4-eb4 folder, do not write anything in the root of this repo.
-Read the /prompt.md file for coding instructions.
+Build the website as described in prompt.md file
